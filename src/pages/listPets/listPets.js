@@ -35,7 +35,7 @@ function ListPets() {
 
     React.useEffect(() => {
         fetch("http://localhost:5000/getPets").then((data) => data.json()).then((obj) => {
-            setRows(obj.pets);
+            setRows(obj.map(a=>JSON.parse(a)));
         });
 
         // // API call to backend
@@ -66,7 +66,7 @@ function ListPets() {
                                 {row.type}
                             </TableCell>
                             <TableCell align="right">{row.name}</TableCell>
-                            <TableCell align="right">{row.desc}</TableCell>
+                            <TableCell align="right">{row.description}</TableCell>
                             <TableCell align="right">{row.age}</TableCell>
                             <TableCell align="right"><img style={{height: "50px"}} src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=980:*" alt={row.pic} /></TableCell>
                         </TableRow>
