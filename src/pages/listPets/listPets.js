@@ -34,12 +34,16 @@ function ListPets() {
     const [rows, setRows] = React.useState([]);
 
     React.useEffect(() => {
-        // API call to backend
-        setTimeout(() => {
-            setRows(data);
-        },2000)
-    }, []);
+        fetch("http://localhost:5000/getPets").then((data) => data.json()).then((obj) => {
+            setRows(obj.pets);
+        });
 
+        // // API call to backend
+        // setTimeout(() => {
+        //     setRows(data);
+        // },2000)
+    }, []);
+    console.log('rows -> ', rows);
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
