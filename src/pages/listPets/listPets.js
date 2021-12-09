@@ -39,8 +39,11 @@ function ListPets() {
             const newData = obj.map(a => {
                 const o = JSON.parse(a);
                 const [contentType, base64] = o.pic.split(';base64,');
-
-                o.pic = URL.createObjectURL(base64toBlob(contentType, base64));
+                const blobData = base64toBlob(contentType, base64);
+                console.log('blobdata', blobData)
+                const src = URL.createObjectURL(blobData)
+                console.log('blobdata', src)
+                o.pic = src;
                 return o;
             })
             setRows(newData);
@@ -62,6 +65,7 @@ function ListPets() {
                         <TableCell align="right">Description</TableCell>
                         <TableCell align="right">Age</TableCell>
                         <TableCell align="right">photo</TableCell>
+                        <TableCell align="right">Delete</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -77,6 +81,7 @@ function ListPets() {
                             <TableCell align="right">{row.description}</TableCell>
                             <TableCell align="right">{row.age}</TableCell>
                             <TableCell align="right"><img style={{ height: "50px" }} src={row.pic} alt={row.pic} /></TableCell>
+                            <TableCell align="right"><button onClick={() => alert(row.name)}>Delete</button></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
