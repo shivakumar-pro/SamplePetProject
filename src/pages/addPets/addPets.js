@@ -14,7 +14,7 @@ const AddPets = () => {
     });
 
     const handleClick = () => {
-        if(Object.values(data).some((evry) => !evry)) {
+        if (Object.values(data).some((evry) => !evry)) {
             alert("fill all the fields")
         } else {
             apiCall(data);
@@ -23,11 +23,26 @@ const AddPets = () => {
 
     const handleChange = (event) => {
         const { id, value } = event.target
-        console.log("===>", id, value);
-        setData({
-            ...data,
-            [id]: value
-        })
+        if (id === 'pic') {
+            console.log("hello michel", event.target.value, event.target.files)
+            const file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (readerEvt) {
+                    var binaryString = readerEvt.target.result;
+                    const convertedData = binaryString;
+                    setData({...data, [id]: convertedData});
+                };
+                reader.readAsDataURL(file);
+            }
+        } else {
+            console.log("===>", id, value);
+            setData({
+                ...data,
+                [id]: value
+            })
+        }
 
     }
 
@@ -35,23 +50,23 @@ const AddPets = () => {
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        
+
         var raw = JSON.stringify(data);
-        
+
         var requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: raw,
-          redirect: 'follow'
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
         };
-        
+
         fetch("http://localhost:5000/post", requestOptions)
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }
 
-    console.log("RENDER = " ,data)
+    console.log("RENDER = ", data)
 
     return <Grid container={true} justifyContent="center">
         <Grid item={true} md={6} xs={12}>
