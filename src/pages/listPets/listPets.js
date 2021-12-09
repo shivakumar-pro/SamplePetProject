@@ -15,19 +15,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { base64toBlob } from '../../util/base64toblobconverter';
 
-function createData(name, type, desc, age, pic) {
-    return { name, type, desc, age, pic };
-}
+// function createData(name, type, desc, age, pic) {
+//     return { name, type, desc, age, pic };
+// }
 
 
-const data = [
-    createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
-    createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
-    createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
-    createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
-    createData('Meow', "cat", "bekku", 4, "PIC")
-];
+// const data = [
+//     createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
+//     createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
+//     createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
+//     createData('Luffy', "Dog", "Nam nayi", 2, "PIC"),
+//     createData('Meow', "cat", "bekku", 4, "PIC")
+// ];
 
 function ListPets() {
 
@@ -35,7 +36,14 @@ function ListPets() {
 
     React.useEffect(() => {
         fetch("http://localhost:5000/getPets").then((data) => data.json()).then((obj) => {
-            setRows(obj.map(a=>JSON.parse(a)));
+            const newData = obj.map(a => {
+                const o = JSON.parse(a);
+                const [contentType, base64] = o.pic.split(';base64,');
+
+                o.pic = URL.createObjectURL(base64toBlob(contentType, base64));
+                return o;
+            })
+            setRows(newData);
         });
 
         // // API call to backend
@@ -68,7 +76,7 @@ function ListPets() {
                             <TableCell align="right">{row.name}</TableCell>
                             <TableCell align="right">{row.description}</TableCell>
                             <TableCell align="right">{row.age}</TableCell>
-                            <TableCell align="right"><img style={{height: "50px"}} src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=980:*" alt={row.pic} /></TableCell>
+                            <TableCell align="right"><img style={{ height: "50px" }} src={row.pic} alt={row.pic} /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
