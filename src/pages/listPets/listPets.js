@@ -51,9 +51,16 @@ function ListPets() {
 
         // // API call to backend
         // setTimeout(() => {
-        //     setRows(data);
-        // },2000)
-    }, []);
+            //     setRows(data);
+            // },2000)
+        }, []);
+        const del = (id) => {
+            fetch("http://localhost:5000/deletePets/" + id, {
+                method: 'DELETE',
+            })
+                .then(res => res.text()) // or res.json()
+                .then(res => console.log(res))
+        }
     console.log('rows -> ', rows);
     return (
         <TableContainer component={Paper}>
@@ -81,7 +88,7 @@ function ListPets() {
                             <TableCell align="right">{row.description}</TableCell>
                             <TableCell align="right">{row.age}</TableCell>
                             <TableCell align="right"><img style={{ height: "50px" }} src={row.pic} alt={row.pic} /></TableCell>
-                            <TableCell align="right"><button onClick={() => alert(row.name)}>Delete</button></TableCell>
+                            <TableCell align="right"><button onClick={() => del(row.id)}>Delete</button></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
