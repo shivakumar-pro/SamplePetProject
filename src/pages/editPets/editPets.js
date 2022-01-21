@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, CardHeader, Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
 
-const AddPets = () => {
+const EditPets = () => {
     const [data, setData] = React.useState({
         name: "a",
         age: 0,
@@ -14,6 +14,16 @@ const AddPets = () => {
         pic: ""
     });
     const navigate = useNavigate();
+    // GETTING ID FROM URL, ID IS MAPPED IN APP.JS
+    const { id } = useParams();
+
+    // this runs before the page render
+    React.useEffect(()=>{
+        // getting object by id
+        fetch("http://localhost:5000/getPet/"+id).then(a=>a.json()).then(data=> {
+            setData(data);
+        });
+    },[])
 
     const handleClick = () => {
         if (Object.values(data).some((evry) => !evry)) {
@@ -56,13 +66,13 @@ const AddPets = () => {
         var raw = JSON.stringify(data);
 
         var requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/addpet", requestOptions)
+        fetch("http://localhost:5000/editpet/"+id, requestOptions)
             .then(response => response.text())
             .then(result => {
                 navigate('/home/list')
@@ -91,6 +101,7 @@ const AddPets = () => {
                     renderInput={(params) => (
                         <TextField {...params} label="Type" variant="outlined" />
                     )}
+                    value={data.type}
                 />
                 <br />
                 <TextField
@@ -99,6 +110,7 @@ const AddPets = () => {
                     fullWidth
                     variant="outlined"
                     onChange={handleChange}
+                    value={data.name}
                 />
                 <br />
                 <br />
@@ -109,6 +121,7 @@ const AddPets = () => {
                     fullWidth
                     variant="outlined"
                     onChange={handleChange}
+                    value={data.age}
                 />
                 <br />
                 <br />
@@ -119,8 +132,12 @@ const AddPets = () => {
                     fullWidth
                     minRows={4}
                     onChange={handleChange}
+                    value={data.description}
                 // maxRows={6}
                 />
+                <br />
+                <br />
+                <img src={data.pic} style={{width: "100px", height: "100px"}}/>
                 <br />
                 <br />
                 <Button
@@ -128,7 +145,7 @@ const AddPets = () => {
                     component="label"
                     onChange={handleChange}
                 >
-                    Upload File
+                    Upload New File
                     <input
                         id="pic"
                         type="file"
@@ -151,4 +168,4 @@ const AddPets = () => {
     </Grid>
 }
 
-export { AddPets };
+export { EditPets };

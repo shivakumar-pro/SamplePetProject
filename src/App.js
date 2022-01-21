@@ -5,7 +5,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import {AddPets, Home, ListPets, Login, Website} from './pages';
+import {AddPets, Home, ListPets, Login, Website, EditPets} from './pages';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
         <Route path="/home" element={<Home />}>
           <Route path="list" element={<ListPets />} />
           <Route path="add" element={<AddPets />} />
+          <Route path="edit/:id" element={<EditPets />} />
         </Route>
         <Route path="/" element={<Website />} />
       </Routes>
