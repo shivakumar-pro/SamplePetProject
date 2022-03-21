@@ -5,6 +5,7 @@ import { Button, CardHeader, Grid, Input } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { useNavigate, useParams } from 'react-router-dom';
 import { base64toBlob } from '../../util/base64toblobconverter';
+import { EDIT_PET, GET_PET } from '../../util/constants';
 
 
 
@@ -30,7 +31,7 @@ const Edit = () => {
         window.scrollTo(0, 0)
 
         // getting object by id
-        fetch("http://localhost:5000/getPet/" + petid).then(a => a.json()).then(data => {
+        fetch(GET_PET + petid).then(a => a.json()).then(data => {
             setData(data);
         });
     }, [])
@@ -94,7 +95,7 @@ const Edit = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/editpet/" + petid, requestOptions)
+        fetch( EDIT_PET+ petid, requestOptions)
             .then(response => response.text())
             .then(result => {
                 navigate('/home/list')
@@ -110,7 +111,7 @@ const Edit = () => {
 
     return <Grid container={true} justifyContent="center">
         <Grid item={true} md={6} xs={12}>
-            <Paper elevation={3} style={{ padding: "0 15px 15px 15px" }} style={myStyle}>
+            <Paper elevation={3} style={{ padding: "0 15px 15px 15px", ...myStyle }}>
                 <CardHeader
                     title="Edit pets"
                     style={{ backgroundColor: "#1875d1", margin: "0 -15px 10px -15px", height: "50px", color: "white", textAlign: "center" }}

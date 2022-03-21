@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, CardHeader, Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
+import { ADD_PETS } from '../../util/constants';
 
 
 
@@ -85,7 +86,7 @@ const AddPets = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/post", requestOptions)
+        fetch(ADD_PETS, requestOptions)
             .then(response => response.text())
             .then(result => {
                 navigate('/home/list')

@@ -15,7 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { base64toBlob } from "../../util/base64toblobconverter";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
@@ -30,7 +30,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function ListPets() {
   const navigate = useNavigate();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const [rows, setRows] = React.useState([]);
   const [open, setOpen] = React.useState(false);
 
@@ -56,7 +56,8 @@ function ListPets() {
           }
           return o;
         });
-        setRows(newData);
+        const type = searchParams.get("type");
+        setRows(type ? newData.filter((obj) => obj.type === type) : newData);
       });
 
     // // API call to backend

@@ -5,6 +5,7 @@ import { Button, CardHeader, Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import { useNavigate } from 'react-router-dom';
+import { LOGIN } from '../../util/constants';
 
 
 const Login = () => {
@@ -44,7 +45,7 @@ const Login = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/user", requestOptions)
+        fetch(LOGIN, requestOptions)
             .then(response => response.text())
             .then(result => {
                 console.log(result)

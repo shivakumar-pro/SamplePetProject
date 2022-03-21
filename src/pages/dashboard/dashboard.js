@@ -79,6 +79,10 @@ function Dashboard() {
     }, []);
 
 
+    const navigateTo = (type) => {
+        navigate(`/home/list?type=${type}`);
+    }
+
     return (
 
         <Grid container={true} justifyContent="center" spacing={4} style={{ padding: "20px" }}>
@@ -95,7 +99,7 @@ function Dashboard() {
                         margin:'10px',
 
                     }}
-                    //onChange={handleChange}
+                    onClick={() => navigateTo("dogs")}
 
                 >
                     Dogs

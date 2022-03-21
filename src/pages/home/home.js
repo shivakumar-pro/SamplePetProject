@@ -31,6 +31,7 @@ import { base64toBlob } from '../../util/base64toblobconverter';
 import InfoIcon from '@mui/icons-material/Info';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import { Button, CardHeader } from '@mui/material';
+import { GET_PETS } from '../../util/constants';
 
 
 
@@ -151,7 +152,7 @@ function Home() {
 
 
     React.useEffect(() => {
-        fetch("http://localhost:5000/getPets").then((data) => data.json()).then((obj) => {
+        fetch(GET_PETS).then((data) => data.json()).then((obj) => {
             const newData = obj.map(a => {
                 const o = JSON.parse(a);
                 if (o.pic) {
