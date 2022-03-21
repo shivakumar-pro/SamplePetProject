@@ -1,39 +1,29 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, CardHeader, Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
 
-
-
-const AddPets = () => {
-
-
-    const myStyle = {
-        backgroundImage: "url(/images/naayi.jfif)",
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        padding: "0 15px 15px 15px"
-
-
-
-    };
-
-
-    const navigate = useNavigate();
-    const [disableBtn, setDisableBtn] = React.useState(false);
-
+const EditPets = () => {
     const [data, setData] = React.useState({
-        name: "",
+        name: "a",
+        age: 0,
         description: "",
-        breed: "",
         type: "",
-        pic: "",
-        price: ""
+        pic: ""
     });
+    const navigate = useNavigate();
+    // GETTING ID FROM URL, ID IS MAPPED IN APP.JS
+    const { id } = useParams();
+
+    // this runs before the page render
+    React.useEffect(()=>{
+        // getting object by id
+        fetch("http://localhost:5000/getPet/"+id).then(a=>a.json()).then(data=> {
+            setData(data);
+        });
+    },[])
 
     const handleClick = () => {
         if (Object.values(data).some((evry) => !evry)) {
@@ -42,6 +32,7 @@ const AddPets = () => {
             apiCall(data);
         }
     }
+
     const handleChange = (event) => {
         const { id, value } = event.target
         if (id === 'pic') {
@@ -53,7 +44,7 @@ const AddPets = () => {
                 reader.onload = function (readerEvt) {
                     var binaryString = readerEvt.target.result;
                     const convertedData = binaryString;
-                    setData({ ...data, [id]: convertedData });
+                    setData({...data, [id]: convertedData});
                 };
                 reader.readAsDataURL(file);
             }
@@ -67,125 +58,71 @@ const AddPets = () => {
 
     }
 
-    React.useEffect(() => {
-        window.scrollTo(0, 0)
-    }, []);
-
-
-
     const apiCall = (data) => {
-        setDisableBtn(true);
+
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify(data);
+
         var requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/post", requestOptions)
+        fetch("http://localhost:5000/editpet/"+id, requestOptions)
             .then(response => response.text())
             .then(result => {
                 navigate('/home/list')
                 console.log(result)
             })
-
-            .catch(error => {
-                setDisableBtn(false);
-                console.log('error', error)
-            });
+            .catch(error => console.log('error', error));
     }
 
     console.log("RENDER = ", data)
+
     return <Grid container={true} justifyContent="center">
         <Grid item={true} md={6} xs={12}>
-            <Paper elevation={3} style={{ padding: "0 15px 15px 15px" }} style={myStyle}>
+            <Paper elevation={3} style={{ padding: "0 15px 15px 15px" }}>
                 <CardHeader
                     title="Add pets"
                     style={{ backgroundColor: "#1875d1", margin: "0 -15px 10px -15px", height: "50px", color: "white", textAlign: "center" }}
                 />
-
                 <Autocomplete
                     options={[
                         { id: "dogs", "label": "Dogs", "value": "dogs" },
                         { id: "cats", "label": "Cats", "value": "cats" },
                         { id: "birds", "label": "Birds", "value": "birds" },
-                        { id: "fish", "label": "Fish", "value": "fish" },
                     ]}
                     onChange={(event, nv) => handleChange({ target: { value: nv.value, id: "type" } })}
                     id="type"
                     renderInput={(params) => (
                         <TextField {...params} label="Type" variant="outlined" />
                     )}
+                    value={data.type}
                 />
                 <br />
-                {/* 
                 <TextField
-                    id="id"
-                    label="Pet Id"
-                    type="number"
+                    id="name"
+                    label="Name"
                     fullWidth
                     variant="outlined"
                     onChange={handleChange}
-
-                />
-                <br /> */}
-                <TextField
-                    id="price"
-                    label="Price"
-                    type="number"
-                    fullWidth
-                    variant="outlined"
-                    onChange={handleChange}
-
-
+                    value={data.name}
                 />
                 <br />
                 <br />
                 <TextField
-                    id="breed"
-                    label="Breed"
-                    fullWidth
-                    variant="outlined"
-                    onChange={handleChange}
-
-                />
-                <br />
-                {/* <TextField
                     id="age"
                     label="age"
                     type="number"
                     fullWidth
                     variant="outlined"
                     onChange={handleChange}
+                    value={data.age}
                 />
-                <br /> */}
-                <br />
-                <TextField
-                    id="name"
-                    label="Name"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    onChange={handleChange}
-
-                />
-                {/* <br />
-                 <TextField
-                    id="dob"
-                    label="Date Of Birth"
-                    type="date"
-                    defaultValue="2017-05-24"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    onChange={handleChange}
-
-                /> */}
                 <br />
                 <br />
                 <TextField
@@ -195,34 +132,25 @@ const AddPets = () => {
                     fullWidth
                     minRows={4}
                     onChange={handleChange}
+                    value={data.description}
                 // maxRows={6}
                 />
                 <br />
                 <br />
-
-
-                <img style={{ height: "50px" }} src={data.pic} alt={data.pic} />
+                <img src={data.pic} style={{width: "100px", height: "100px"}}/>
+                <br />
                 <br />
                 <Button
                     variant="outlined"
                     component="label"
-                    style={{
-                        backgroundColor: 'green',
-                        color: 'white',
-                        WebkitBoxSizing: 'border-box',
-                        WebkitBorderRadius: '20px',
-                        fontWeight: 'bold',
-
-                    }}
                     onChange={handleChange}
-
                 >
-                    Upload File
+                    Upload New File
                     <input
                         id="pic"
                         type="file"
                         hidden
-                        accept='.png,.jpeg,.jpg,.jpe,.jfif,.jif'
+                        accept=".jpeg, .jpg, .jpe, .jfif, .jif"
                     />
                 </Button>
                 <br />
@@ -231,11 +159,7 @@ const AddPets = () => {
                     variant="contained"
                     component="label"
                     fullWidth
-                    //onClick={handleClick}
-                    onClick={() => {
-                        handleClick();
-                    }}
-                    disabled={disableBtn}
+                    onClick={handleClick}
                 >
                     Submit
                 </Button>
@@ -244,7 +168,4 @@ const AddPets = () => {
     </Grid>
 }
 
-
-
-
-export { AddPets };
+export { EditPets };
