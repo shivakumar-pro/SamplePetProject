@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 function SignUP() {
     const adminUser = {
-        email: "admin@admin.com",
-        password: "admin123"
+        email: "admin@example.com",
+        password: "password"
     }
 
     const [user, setUser] = useState({ name: "", email: "" });
@@ -22,8 +22,8 @@ function SignUP() {
     const Login = details => {
         console.log(details);
         
-        localStorage.setItem("email","admin@admin.com");
-        localStorage.setItem("password","admin123");
+        localStorage.setItem("email","admin@example.com");
+        localStorage.setItem("password","password");
         if (details.email == adminUser.email && details.password == adminUser.password) {
             console.log("Logged in");
             setUser({

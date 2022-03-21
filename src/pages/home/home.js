@@ -117,8 +117,8 @@ function Home() {
     };
 
     const adminUser = {
-        email: "admin@admin.com",
-        password: "admin123"
+        email: "admin@example.com",
+        password: "password"
     }
     const navigate = useNavigate();
 

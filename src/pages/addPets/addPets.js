@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, CardHeader, Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
 
 
 
@@ -102,7 +101,7 @@ const AddPets = () => {
     console.log("RENDER = ", data)
     return <Grid container={true} justifyContent="center">
         <Grid item={true} md={6} xs={12}>
-            <Paper elevation={3} style={{ padding: "0 15px 15px 15px" }} style={myStyle}>
+            <Paper elevation={3} style={{ padding: "0 15px 15px 15px", ...myStyle }}>
                 <CardHeader
                     title="Add pets"
                     style={{ backgroundColor: "#1875d1", margin: "0 -15px 10px -15px", height: "50px", color: "white", textAlign: "center" }}

@@ -11,8 +11,8 @@ function Website() {
     const navigate = useNavigate();
 
     const adminUser = {
-        email: "admin@admin.com",
-        password: "admin123"
+        email: "admin@example.com",
+        password: "password"
     }
 
 
