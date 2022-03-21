@@ -15,8 +15,8 @@ function Dashboard() {
     const [open, setOpen] = React.useState(true);
 
     const adminUser = {
-        email: "admin@admin.com",
-        password: "admin123"
+        email: "admin@example.com",
+        password: "password"
     }
     const navigate = useNavigate();
 
