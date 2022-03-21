@@ -1,12 +1,3 @@
-drop table if exists dogs;
-drop table if exists birds;
-drop table if exists cats;
-drop table if exists fish;
-drop table if exists customer;
-drop table if exists animals;
-
-
-
 create table animals(
 petid int NOT NULL AUTO_INCREMENT,
 type varchar(255) NOT NULL,
@@ -45,6 +36,17 @@ description varchar(255) NOT NULL,
 pic mediumtext NOT NULL,
 CONSTRAINT FK_fish FOREIGN KEY (petid) REFERENCES animals (petid) ON DELETE CASCADE);
 
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 create table customer(
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255),
@@ -53,6 +55,10 @@ create table customer(
     contact int(10),
     address varchar(255),
     primary key (id));
+
+
+
+
 
 
 

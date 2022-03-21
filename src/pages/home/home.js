@@ -259,6 +259,19 @@ function Home() {
                                 <ListItemText primary={"Add Customer"} />
                             </ListItem>
                         </NavLink>
+
+                        <NavLink to="custlist" style={{
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}>
+                            <ListItem button key={"custlist"}>
+                                <ListItemIcon>
+                                    <ListIcon sx={{ color: "green", fontSize: 35 }} />
+                                </ListItemIcon>
+                                <ListItemText primary={"custlist"} />
+                            </ListItem>
+                        </NavLink>
+
                     </List>
                     <Divider />
                     <NavLink to="../signup" style={{

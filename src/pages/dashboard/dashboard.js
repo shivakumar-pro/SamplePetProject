@@ -116,7 +116,7 @@ function Dashboard() {
                         margin:'10px',
 
                     }}
-                    //onChange={handleChange}
+                    onClick={() => navigateTo("cats")}
 
                 >
                     Cats
@@ -134,7 +134,7 @@ function Dashboard() {
                         margin:'10px',
 
                     }}
-                    //onChange={handleChange}
+                    onClick={() => navigateTo("birds")}
 
                 >
                     Birds
@@ -152,30 +152,12 @@ function Dashboard() {
                         margin:'10px',
 
                     }}
-                    //onChange={handleChange}
+                    onClick={() => navigateTo("fish")}
 
                 >
                     Fish
                 </Button>
                 
-                <Button
-                    variant="outlined"
-                    component="label"
-                    style={{
-                        backgroundColor: 'green',
-                        color: 'white',
-                        WebkitBoxSizing: 'border-box',
-                        WebkitBorderRadius: '20px',
-                        fontWeight: 'bold',
-                        margin:'10px',
-
-                    }}
-                    onClick={customerchange}
-
-                >
-                   Add Customer
-                </Button>
-
                 <Button
                     variant="outlined"
                     component="label"
